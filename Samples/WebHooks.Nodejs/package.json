@@ -4,7 +4,7 @@
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
-    "start": "gulp typescript & node --debug --inspect ./dist/index.js"
+    "start": "gulp typescript & node --inspect-brk ./dist/index.js"
   },
   "author": "Elio Struyf <info@estruyf.be> (http://www.eliostruyf.com)",
   "license": "MIT",
@@ -14,7 +14,8 @@
     "gulp": "^3.9.1",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-typescript": "^3.0.0",
-    "typescript": "^2.0.3"
+    "typescript": "^2.0.3",
+    "jshint": ">= 2.1.4"
   },
   "dependencies": {
     "adal-node": "^0.1.22",
@@ -22,6 +23,7 @@
     "es6-promise": "^4.0.5",
     "express": "^4.14.0",
     "moment": "^2.15.1",
-    "request": "^2.75.0"
+    "request": "^2.75.0",
+    "azure-storage": "~1.0"
   }
 }
