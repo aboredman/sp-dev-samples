@@ -5,6 +5,7 @@ import * as fs from 'fs';
 
 import TokenHelper from '../helpers/TokenHelper';
 import ChangeHelper from '../helpers/ChangeHelper';
+import AzureQueueHelper from '../helpers/AzureQueueHelper';
 import { IConfig } from '../Interfaces/IConfig';
 
 const config: IConfig = require('../../config.json');
@@ -13,10 +14,12 @@ export default class HomeRoutes {
     private router = express.Router();
     private tokenHelper: TokenHelper;
     private changeHelper: ChangeHelper;
+    private azureQueueHelper: AzureQueueHelper;
 
     constructor() {
         this.tokenHelper = new TokenHelper();
         this.changeHelper = new ChangeHelper(config);
+        this.azureQueueHelper = new AzureQueueHelper(config);
     }
 
     public routes(): express.Router {
