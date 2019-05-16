@@ -8,7 +8,7 @@ import ChangeHelper from '../helpers/ChangeHelper';
 import AzureQueueHelper from '../helpers/AzureQueueHelper';
 import { IConfig } from '../Interfaces/IConfig';
 
-const config: IConfig = require('../../config.json');
+const config: IConfig = require('../../config/config.json');
 
 export default class HomeRoutes {
     private router = express.Router();
@@ -120,6 +120,8 @@ export default class HomeRoutes {
                 res.send(req.query.validationtoken);
                 res.status(200);
             } else {
+                var homeRef = this;
+
                 this.changeHelper.check(req.body).then((data) => {
                     console.log(data);
                     
@@ -138,6 +140,7 @@ export default class HomeRoutes {
                         fs.writeFileSync(fileName, fileData, 'utf-8');
                     });
 
+                    homeRef.azureQueueHelper.queueMessage(JSON.stringify(data));
                     res.sendStatus(200);
                 }).catch((err) => {
                     res.sendStatus(400);

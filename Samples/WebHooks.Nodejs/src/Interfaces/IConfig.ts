@@ -23,4 +23,5 @@ export interface IAzureQueueConfig {
     connectionString: string;
     accountName: string;
     accountKey: string;
+    queueName: string;
 }

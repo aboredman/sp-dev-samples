@@ -1,13 +1,12 @@
 node_modules
 typings
 local-settings
+dist
 
+config/certs
 config.json
 
 public/webhook.txt
 
-src/*.js
-*.js.map
 *.pem
 *.log
-dist
