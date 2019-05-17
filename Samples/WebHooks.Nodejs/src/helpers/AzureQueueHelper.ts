@@ -7,6 +7,7 @@ export default class AzureQueueHelper {
 
   constructor(config: IConfig) {
     this.config = config;
+    this.init();
   }
 
   // Read configuration file to retrieve credentials such as account name and account key
@@ -23,7 +24,7 @@ export default class AzureQueueHelper {
       this.queueService = storage.createQueueService(this.config.azureQueueConfig.accountName, this.config.azureQueueConfig.accountKey);
     }
 
-    this.queueService.createQueueIfNotExists(this.config.azureQueueConfig.queueName, function (error, result, response) {
+    this.queueService.createQueueIfNotExists(this.config.azureQueueConfig.queueName, function (error) {
       if (error) {
         console.log('TODO: Houston we have a problem');
         throw error;
@@ -32,11 +33,31 @@ export default class AzureQueueHelper {
 
   }
 
-  public queueMessage(messageContent: string) {
+  public addMessage(messageContent: string): void {
+
     this.queueService.createMessage(this.config.azureQueueConfig.queueName, messageContent, function (error, result, response) {
       if (error) {
+        console.log("Error adding message to queue");
         throw error;
       }
+      else {
+        console.log("Message added to queue");
+      }
+    });
+  }
+
+  public getMessage(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.queueService.getMessage(this.config.azureQueueConfig.queueName, function (error, result) {
+        if (error) {
+          console.log("Error retreiving message from queue");
+          reject(error);
+        }
+        else {
+          console.log("Message retreived from queue");
+          resolve(result.messageText);
+        }
+      });
     });
   }
 

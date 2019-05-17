@@ -120,11 +120,21 @@ export default class HomeRoutes {
                 res.send(req.query.validationtoken);
                 res.status(200);
             } else {
-                var homeRef = this;
+                //homeRef.azureQueueHelper.init();
+                req.body.value.forEach(item => {
+                    this.azureQueueHelper.addMessage(JSON.stringify(item));
+                });
+
+                // this.azureQueueHelper.getMessage().then((data) => {
+                //     console.log(data);
+                // }).catch((err) => {
+                //     // Something went wrong
+                //     console.log(err);
+                // })
 
                 this.changeHelper.check(req.body).then((data) => {
                     console.log(data);
-                    
+
                     /* Write to file */
                     // Write changes to file -> this can be updated to a database or queue mechanism
                     const fileName = __dirname + '/../../public/webhook.txt';
@@ -140,7 +150,7 @@ export default class HomeRoutes {
                         fs.writeFileSync(fileName, fileData, 'utf-8');
                     });
 
-                    homeRef.azureQueueHelper.queueMessage(JSON.stringify(data));
+
                     res.sendStatus(200);
                 }).catch((err) => {
                     res.sendStatus(400);
